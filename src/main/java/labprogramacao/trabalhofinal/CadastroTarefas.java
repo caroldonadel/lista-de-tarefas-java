@@ -24,6 +24,19 @@ public class CadastroTarefas extends javax.swing.JFrame {
      */
     public CadastroTarefas() {
         initComponents();
+        
+        texto = ResourceBundle.getBundle("texto", Locale.getDefault());
+        defineTexto();
+    }
+    
+    public void defineTexto() {
+        this.jLabel1.setText(texto.getString("lista"));
+        this.jButton1.setText(texto.getString("adicionar"));
+        this.jButton6.setText(texto.getString("remover"));
+        this.jButton4.setText(texto.getString("portugues"));
+        this.jButton5.setText(texto.getString("ingles"));
+        this.jButton2.setText(texto.getString("txt"));
+        this.jButton3.setText(texto.getString("pdf"));
     }
 
     /**
@@ -44,12 +57,11 @@ public class CadastroTarefas extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("jLabel1");
-
-        jTextField1.setText("jTextField1");
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -65,8 +77,20 @@ public class CadastroTarefas extends javax.swing.JFrame {
         jButton3.setText("jButton3");
 
         jButton4.setText("jButton4");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                alterarIdiomaParaPortugues(evt);
+            }
+        });
 
         jButton5.setText("jButton5");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                alterarIdiomaParaIngles(evt);
+            }
+        });
+
+        jButton6.setText("jButton6");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,7 +113,8 @@ public class CadastroTarefas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
                     .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(jButton5)
+                    .addComponent(jButton6))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -102,11 +127,13 @@ public class CadastroTarefas extends javax.swing.JFrame {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton4)
                         .addGap(26, 26, 26)
                         .addComponent(jButton5)
@@ -119,6 +146,18 @@ public class CadastroTarefas extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void alterarIdiomaParaPortugues(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarIdiomaParaPortugues
+        this.locale = new Locale("pt", "BR");
+        texto = ResourceBundle.getBundle("texto", locale);
+        defineTexto();
+    }//GEN-LAST:event_alterarIdiomaParaPortugues
+
+    private void alterarIdiomaParaIngles(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarIdiomaParaIngles
+        this.locale = new Locale("en", "US");
+        texto = ResourceBundle.getBundle("texto", locale);
+        defineTexto();
+    }//GEN-LAST:event_alterarIdiomaParaIngles
 
     /**
      * @param args the command line arguments
@@ -161,6 +200,7 @@ public class CadastroTarefas extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
