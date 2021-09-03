@@ -8,6 +8,8 @@ package labprogramacao.trabalhofinal;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,8 +19,12 @@ public class CadastroTarefas extends javax.swing.JFrame {
 
     ResourceBundle texto;
     Locale locale;
+    DefaultListModel listModel = new DefaultListModel();
     private ArrayList<Tarefa> tarefasCadastradas = new ArrayList();
     private static ArrayList<String> itens = new ArrayList<String>();
+    TarefaDAO tarefaDAO = TarefaDAO.getInstance();
+     //RelatoriosFacade geradorRelatorios = new RelatoriosFacade();
+     
     /**
      * Creates new form CadastroTarefas
      */
@@ -26,17 +32,29 @@ public class CadastroTarefas extends javax.swing.JFrame {
         initComponents();
         
         texto = ResourceBundle.getBundle("texto", Locale.getDefault());
-        defineTexto();
+        definirTexto();
+        buscarTarefas();
+        refazerLista();
     }
     
-    public void defineTexto() {
-        this.jLabel1.setText(texto.getString("lista"));
+    public void definirTexto() {
+        this.jLabel1.setText(texto.getString("descricao"));
         this.jButton1.setText(texto.getString("adicionar"));
         this.jButton6.setText(texto.getString("remover"));
         this.jButton4.setText(texto.getString("portugues"));
         this.jButton5.setText(texto.getString("ingles"));
         this.jButton2.setText(texto.getString("txt"));
         this.jButton3.setText(texto.getString("pdf"));
+    }
+    
+    public void refazerLista() {
+        DefaultListModel listModel = new DefaultListModel();
+        for (int i = 0; i < tarefasCadastradas.size(); i++)
+        {
+            listModel.addElement(tarefasCadastradas.get(i));
+        }
+        jList1.setModel(listModel);
+        jList1.revalidate();
     }
 
     /**
@@ -71,6 +89,11 @@ public class CadastroTarefas extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jList1);
 
         jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adicionarTarefa(evt);
+            }
+        });
 
         jButton2.setText("jButton2");
 
@@ -91,6 +114,11 @@ public class CadastroTarefas extends javax.swing.JFrame {
         });
 
         jButton6.setText("jButton6");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removerTarefa(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -150,15 +178,52 @@ public class CadastroTarefas extends javax.swing.JFrame {
     private void alterarIdiomaParaPortugues(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarIdiomaParaPortugues
         this.locale = new Locale("pt", "BR");
         texto = ResourceBundle.getBundle("texto", locale);
-        defineTexto();
+        definirTexto();
     }//GEN-LAST:event_alterarIdiomaParaPortugues
 
     private void alterarIdiomaParaIngles(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarIdiomaParaIngles
         this.locale = new Locale("en", "US");
         texto = ResourceBundle.getBundle("texto", locale);
-        defineTexto();
+        definirTexto();
     }//GEN-LAST:event_alterarIdiomaParaIngles
 
+    private void adicionarTarefa(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarTarefa
+        int idTarefaAdicionada = tarefaDAO.adicionar(jTextField1.getText());
+        
+        if (idTarefaAdicionada == -1) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao adicionar a tarefa",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            
+            return;
+        }
+        tarefasCadastradas.add(new Tarefa(jTextField1.getText(), idTarefaAdicionada));
+        
+        refazerLista();
+        jTextField1.setText("");
+    }//GEN-LAST:event_adicionarTarefa
+
+    private void removerTarefa(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerTarefa
+        int indice = jList1.getSelectedIndex();
+        int id = tarefasCadastradas.get(indice).getId();
+        tarefasCadastradas.remove(indice);
+        
+        int resposta = tarefaDAO.remover(id);
+        
+         if (resposta == -1) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao remover a tarefa",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            
+            return;
+        }
+        
+        refazerLista();
+    }//GEN-LAST:event_removerTarefa
+
+    private void buscarTarefas() {
+        tarefasCadastradas = tarefaDAO.buscar();
+        refazerLista();
+    }
+    
     /**
      * @param args the command line arguments
      */

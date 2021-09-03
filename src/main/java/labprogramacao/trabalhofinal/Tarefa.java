@@ -13,8 +13,9 @@ public class Tarefa {
     private String descricao;
     private int id;
 
-    public Tarefa(String descricao) {
+    public Tarefa(String descricao, int id) {
         this.descricao = descricao;
+        this.id = id;
     }
 
     public String getDescricao() {
@@ -31,5 +32,10 @@ public class Tarefa {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Tarefa " + id + " - " + descricao;
     }
 }

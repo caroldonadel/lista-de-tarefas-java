@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,6 +21,9 @@ public class ConexaoPostgreSQL {
     private String usuario;
     private String senha;
     private Connection conexao;
+    
+    PreparedStatement comando;
+    ResultSet result;
 
     public ConexaoPostgreSQL() {
         this.url = "jdbc:postgresql://localhost:5432/postgres";
@@ -28,7 +32,7 @@ public class ConexaoPostgreSQL {
         this.conexao = conexao;
         
         try {
-            Class.forName("org.postgresel.Driver");
+            DriverManager.registerDriver(new org.postgresql.Driver());
             conexao = DriverManager.getConnection(url, usuario, senha);
             
             System.out.println("Conexão realizada com sucesso");
@@ -37,26 +41,59 @@ public class ConexaoPostgreSQL {
         }
     }
     
-    public int executaSQL(String sql) {
-        PreparedStatement prep;
-        ResultSet result;
-        
+    public int adicionar(String sql) {
         try {
-            Statement comando = conexao.createStatement();
-            prep = conexao.prepareStatement(sql ,Statement.RETURN_GENERATED_KEYS);
-            int resposta = comando.executeUpdate(sql);
+            PreparedStatement comando = conexao.prepareStatement(sql ,Statement.RETURN_GENERATED_KEYS);
+            comando.execute();
             
-            result = prep.getGeneratedKeys();
-            conexao.close();
+            result = comando.getGeneratedKeys();
             
-            if(result.next() && result != null){
+            if(result.next()){
                 return result.getInt(1);
             } else {
                 return -1;
             }
             
         } catch (Exception e) {
+            System.out.println(e);
             return -1;
+        }
+    }
+    
+    public int deletar(int id) {
+        
+        String sql = "DELETE FROM tarefa WHERE ID=" + id;
+        
+        try {
+            Statement comando = conexao.createStatement();
+            int resposta = comando.executeUpdate(sql);
+            
+            System.out.println(resposta);
+            return resposta;
+        } catch (Exception e) {
+            System.out.println(e);
+            return -1;
+        }
+    }
+    
+    public ArrayList<Tarefa> busca() {
+        String sql = "SELECT * FROM tarefa";
+        Tarefa tarefa = null;
+        ArrayList<Tarefa> tarefas = new ArrayList();
+        
+        try {
+            Statement comando = conexao.createStatement();
+            ResultSet resposta = comando.executeQuery(sql);
+            
+            while (resposta.next()) {
+                tarefa = new Tarefa(resposta.getString(2), resposta.getInt(1));
+                tarefas.add(tarefa);
+            }
+            
+            return tarefas;
+            
+        } catch (Exception e) {
+            return null;
         }
     }
 }

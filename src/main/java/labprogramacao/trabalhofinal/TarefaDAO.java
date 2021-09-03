@@ -5,6 +5,8 @@
  */
 package labprogramacao.trabalhofinal;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author carol
@@ -18,19 +20,24 @@ public class TarefaDAO {
             return instance;
     }
     
-    public void adicionar(String descricaoTarefa) {
+    public int adicionar(String descricaoTarefa) {
 
-        String consulta = "INSERT INTO tarefa (id, descricao)" + 
-                "VALUES (default," + descricaoTarefa + ")\"";
+        String consulta = "INSERT INTO tarefa VALUES ( default," + "'" + descricaoTarefa + "'" + ")";
         
-        int resposta = conexao.executaSQL(consulta);
+        int resposta = conexao.adicionar(consulta);
+        
+        return resposta;
     }
     
-    public void remover(int id) {
+    public int remover(int id) {
 
-        String consulta = "DELETE FROM tarefa WHERE ID= #{ id } ";
+        int resposta = conexao.deletar(id);
         
-        int resposta = conexao.executaSQL(consulta);
+        return resposta;
     }
-       
+    
+    public ArrayList<Tarefa> buscar() {
+
+        return conexao.busca();
+    }
 }
