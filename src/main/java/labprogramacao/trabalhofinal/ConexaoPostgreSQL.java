@@ -76,6 +76,21 @@ public class ConexaoPostgreSQL {
         }
     }
     
+    public int deletarTodos() {
+        
+        String sql = "DELETE FROM tarefa";
+        
+        try {
+            Statement comando = conexao.createStatement();
+            int resposta = comando.executeUpdate(sql);
+            
+            return resposta;
+        } catch (Exception e) {
+            System.out.println(e);
+            return -1;
+        }
+    }
+    
     public ArrayList<Tarefa> busca() {
         String sql = "SELECT * FROM tarefa";
         Tarefa tarefa = null;

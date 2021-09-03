@@ -36,6 +36,13 @@ public class TarefaDAO {
         return resposta;
     }
     
+    public int removerTodos() {
+
+        int resposta = conexao.deletarTodos();
+        
+        return resposta;
+    }
+    
     public ArrayList<Tarefa> buscar() {
 
         return conexao.busca();
