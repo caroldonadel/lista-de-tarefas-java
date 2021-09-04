@@ -5,9 +5,12 @@
  */
 package labprogramacao.trabalhofinal;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -18,11 +21,11 @@ import javax.swing.JOptionPane;
  */
 public class CadastroTarefas extends javax.swing.JFrame {
     
-    Locale locale;
+    Locale locale = Locale.getDefault();
     ResourceBundle texto;
     private ArrayList<Tarefa> tarefasCadastradas = new ArrayList();
     TarefaDAO tarefaDAO = null;
-     //RelatoriosFacade geradorRelatorios = new RelatoriosFacade();
+    RelatoriosFacade geradorRelatorios = new RelatoriosFacade();
      
     /**
      * Creates new form CadastroTarefas
@@ -112,8 +115,18 @@ public class CadastroTarefas extends javax.swing.JFrame {
         });
 
         jButton2.setText("jButton2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gerarRelatorioTxt(evt);
+            }
+        });
 
         jButton3.setText("jButton3");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gerarRelatorioPdf(evt);
+            }
+        });
 
         jButton4.setText("jButton4");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -153,7 +166,9 @@ public class CadastroTarefas extends javax.swing.JFrame {
 
         jLabel5.setText("jLabel5");
 
-        jPasswordField1.setText("jPas");
+        jTextField2.setText("postgres");
+
+        jPasswordField1.setText("1234");
 
         jButton8.setText("jButton8");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -379,6 +394,18 @@ public class CadastroTarefas extends javax.swing.JFrame {
         buscarTarefas();
         refazerLista();
     }//GEN-LAST:event_conectarComBancoDeDados
+
+    private void gerarRelatorioPdf(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarRelatorioPdf
+        try {
+            geradorRelatorios.geraPDF(tarefasCadastradas, locale.getDisplayLanguage());
+        } catch (IOException ex) {
+            Logger.getLogger(CadastroTarefas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_gerarRelatorioPdf
+
+    private void gerarRelatorioTxt(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarRelatorioTxt
+        geradorRelatorios.geraTXT(tarefasCadastradas, locale.getDisplayLanguage());
+    }//GEN-LAST:event_gerarRelatorioTxt
 
     private void buscarTarefas() {
         tarefasCadastradas = tarefaDAO.buscar();

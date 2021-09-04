@@ -22,6 +22,10 @@ public class Tarefa {
         return id;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+    
     @Override
     public String toString() {
         return "Tarefa " + id + " - " + descricao;
