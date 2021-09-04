@@ -6,6 +6,8 @@
 package labprogramacao.trabalhofinal;
 
 import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,14 +16,21 @@ import java.util.ArrayList;
 public class TarefaDAO {
 
     private static final TarefaDAO instance = new TarefaDAO();
-    private ConexaoPostgreSQL conexao = new ConexaoPostgreSQL();
+    private ConexaoPostgreSQL conexao = null;
+    private String usuario;
+    private String endereco;
+    private char[] senha;
 
     public static TarefaDAO getInstance() {
-            return instance;
+        return instance;
+    }
+    
+    public void conectar() {
+        this.conexao = new ConexaoPostgreSQL(this.usuario, this.senha, this.endereco);
     }
     
     public int adicionar(String descricaoTarefa) {
-
+        
         String consulta = "INSERT INTO tarefa VALUES ( default," + "'" + descricaoTarefa + "'" + ")";
         
         int resposta = conexao.adicionar(consulta);
@@ -30,21 +39,28 @@ public class TarefaDAO {
     }
     
     public int remover(int id) {
-
         int resposta = conexao.deletar(id);
-        
         return resposta;
     }
     
     public int removerTodos() {
-
-        int resposta = conexao.deletarTodos();
-        
-        return resposta;
+        return conexao.deletarTodos();
     }
     
     public ArrayList<Tarefa> buscar() {
-
+        
         return conexao.busca();
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public void setSenha(char[] senha) {
+        this.senha = senha;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 }

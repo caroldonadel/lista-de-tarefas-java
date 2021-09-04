@@ -11,33 +11,42 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author carol
  */
 public class ConexaoPostgreSQL {
-    private String url;
     private String usuario;
     private String senha;
+    private String endereco;
     private Connection conexao;
-    
     PreparedStatement comando;
-    ResultSet result;
+    ResultSet resultado;
+    JFrame frame = new JFrame("");
 
-    public ConexaoPostgreSQL() {
-        this.url = "jdbc:postgresql://localhost:5432/postgres";
-        this.usuario = "postgres";
-        this.senha = "1234";
-        this.conexao = conexao;
+    public ConexaoPostgreSQL(String usuario, char[] senhaRecebida, String endereco) {
+        this.endereco = endereco;
+        this.usuario = usuario;
+        this.senha = String.valueOf(senhaRecebida);
         
         try {
             DriverManager.registerDriver(new org.postgresql.Driver());
-            conexao = DriverManager.getConnection(url, usuario, senha);
+            conexao = DriverManager.getConnection(endereco, this.usuario, this.senha);
             
-            System.out.println("Conexão realizada com sucesso");
+            JOptionPane.showMessageDialog(frame, "Conexão realizada com sucesso",
+                "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            
+            String sql = "CREATE TABLE IF NOT EXISTS tarefa (id serial NOT NULL,descricao text NOT NULL, PRIMARY KEY (id))";
+            PreparedStatement comando = conexao.prepareStatement(sql ,Statement.RETURN_GENERATED_KEYS);
+            comando.execute();
+            
         } catch (Exception e) {
-            e.printStackTrace();
+            
+            JOptionPane.showMessageDialog(frame, "Ocorreu um erro ao tentar se conectar com o banco de dados",
+                "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -46,32 +55,28 @@ public class ConexaoPostgreSQL {
             PreparedStatement comando = conexao.prepareStatement(sql ,Statement.RETURN_GENERATED_KEYS);
             comando.execute();
             
-            result = comando.getGeneratedKeys();
+            resultado = comando.getGeneratedKeys();
             
-            if(result.next()){
-                return result.getInt(1);
+            if(resultado.next()){
+                return resultado.getInt(1);
             } else {
                 return -1;
             }
             
         } catch (Exception e) {
-            System.out.println(e);
             return -1;
         }
     }
     
     public int deletar(int id) {
-        
         String sql = "DELETE FROM tarefa WHERE ID=" + id;
         
         try {
             Statement comando = conexao.createStatement();
             int resposta = comando.executeUpdate(sql);
             
-            System.out.println(resposta);
             return resposta;
         } catch (Exception e) {
-            System.out.println(e);
             return -1;
         }
     }
@@ -86,7 +91,6 @@ public class ConexaoPostgreSQL {
             
             return resposta;
         } catch (Exception e) {
-            System.out.println(e);
             return -1;
         }
     }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,13 +17,11 @@ import javax.swing.JOptionPane;
  * @author carol
  */
 public class CadastroTarefas extends javax.swing.JFrame {
-
-    ResourceBundle texto;
+    
     Locale locale;
-    DefaultListModel listModel = new DefaultListModel();
+    ResourceBundle texto;
     private ArrayList<Tarefa> tarefasCadastradas = new ArrayList();
-    private static ArrayList<String> itens = new ArrayList<String>();
-    TarefaDAO tarefaDAO = TarefaDAO.getInstance();
+    TarefaDAO tarefaDAO = null;
      //RelatoriosFacade geradorRelatorios = new RelatoriosFacade();
      
     /**
@@ -33,7 +32,6 @@ public class CadastroTarefas extends javax.swing.JFrame {
         
         texto = ResourceBundle.getBundle("texto", Locale.getDefault());
         definirTexto();
-        buscarTarefas();
         refazerLista();
     }
     
@@ -46,15 +44,21 @@ public class CadastroTarefas extends javax.swing.JFrame {
         this.jButton2.setText(texto.getString("txt"));
         this.jButton3.setText(texto.getString("pdf"));
         this.jButton7.setText(texto.getString("removerTodos"));
+        this.jLabel2.setText(texto.getString("tarefas"));
+        this.jLabel3.setText(texto.getString("conexãoBD"));
+        this.jLabel4.setText(texto.getString("usuario"));
+        this.jLabel5.setText(texto.getString("senha"));
+        this.jButton8.setText(texto.getString("conectar"));
+        this.jLabel6.setText(texto.getString("endereco"));
     }
     
     public void refazerLista() {
-        DefaultListModel listModel = new DefaultListModel();
+        DefaultListModel listaTela = new DefaultListModel();
         for (int i = 0; i < tarefasCadastradas.size(); i++)
         {
-            listModel.addElement(tarefasCadastradas.get(i));
+            listaTela.addElement(tarefasCadastradas.get(i));
         }
-        jList1.setModel(listModel);
+        jList1.setModel(listaTela);
         jList1.revalidate();
     }
 
@@ -78,6 +82,16 @@ public class CadastroTarefas extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jPasswordField1 = new javax.swing.JPasswordField();
+        jButton8 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -129,31 +143,115 @@ public class CadastroTarefas extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("jLabel2");
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel3.setText("jLabel3");
+
+        jLabel4.setText("jLabel4");
+
+        jLabel5.setText("jLabel5");
+
+        jPasswordField1.setText("jPas");
+
+        jButton8.setText("jButton8");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                conectarComBancoDeDados(evt);
+            }
+        });
+
+        jLabel6.setText("jLabel6");
+
+        jTextField3.setText("jdbc:postgresql://localhost:5432/postgres");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(76, 76, 76))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPasswordField1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(jButton8)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField3))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField2)))
+                .addGap(18, 18, 18))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addGap(29, 29, 29)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton8)
+                .addGap(10, 10, 10))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jScrollPane1)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(jButton2)
-                        .addGap(67, 67, 67)
-                        .addComponent(jButton3)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6)
-                    .addComponent(jButton7))
-                .addContainerGap(64, Short.MAX_VALUE))
+                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton7)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton3))))
+                            .addComponent(jButton1)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,25 +262,24 @@ public class CadastroTarefas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jButton6)
-                        .addGap(29, 29, 29)
-                        .addComponent(jButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton5)
-                        .addGap(47, 47, 47)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addGap(25, 25, 25))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton6)
+                            .addComponent(jButton7))
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton4)
+                            .addComponent(jButton5)
+                            .addComponent(jButton2)
+                            .addComponent(jButton3))
+                        .addGap(31, 31, 31)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
+                .addGap(32, 32, 32))
         );
 
         pack();
@@ -201,6 +298,14 @@ public class CadastroTarefas extends javax.swing.JFrame {
     }//GEN-LAST:event_alterarIdiomaParaIngles
 
     private void adicionarTarefa(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarTarefa
+        
+        if (tarefaDAO == null) {
+            JOptionPane.showMessageDialog(this, "Faça a conexão com o banco de dados!",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            
+            return;
+        }
+        
         int idTarefaAdicionada = tarefaDAO.adicionar(jTextField1.getText());
         
         if (idTarefaAdicionada == -1) {
@@ -216,6 +321,14 @@ public class CadastroTarefas extends javax.swing.JFrame {
     }//GEN-LAST:event_adicionarTarefa
 
     private void removerTarefa(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerTarefa
+        
+        if (tarefaDAO == null) {
+            JOptionPane.showMessageDialog(this, "Faça a conexão com o banco de dados!",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            
+            return;
+        }
+        
         int indice = jList1.getSelectedIndex();
         int id = tarefasCadastradas.get(indice).getId();
         tarefasCadastradas.remove(indice);
@@ -233,7 +346,14 @@ public class CadastroTarefas extends javax.swing.JFrame {
     }//GEN-LAST:event_removerTarefa
 
     private void removerTodasTarefas(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerTodasTarefas
-        // TODO add your handling code here:
+        
+        if (tarefaDAO == null) {
+            JOptionPane.showMessageDialog(this, "Faça a conexão com o banco de dados!",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            
+            return;
+        }
+        
         int retorno = tarefaDAO.removerTodos();
         
         if (retorno == -1) {
@@ -246,6 +366,19 @@ public class CadastroTarefas extends javax.swing.JFrame {
         tarefasCadastradas.clear();
         refazerLista();
     }//GEN-LAST:event_removerTodasTarefas
+
+    private void conectarComBancoDeDados(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conectarComBancoDeDados
+        
+        this.tarefaDAO = TarefaDAO.getInstance();
+        tarefaDAO.setUsuario(jTextField2.getText());
+        tarefaDAO.setSenha(jPasswordField1.getPassword());
+        tarefaDAO.setEndereco(jTextField3.getText());
+        
+        tarefaDAO.conectar();
+        
+        buscarTarefas();
+        refazerLista();
+    }//GEN-LAST:event_conectarComBancoDeDados
 
     private void buscarTarefas() {
         tarefasCadastradas = tarefaDAO.buscar();
@@ -295,9 +428,19 @@ public class CadastroTarefas extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JList<String> jList1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }
