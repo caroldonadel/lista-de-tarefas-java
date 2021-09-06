@@ -26,13 +26,16 @@ import java.util.ResourceBundle;
  */
 public class RelatoriosFacade {
     
+    JFrame frame = new JFrame("");
+    
     /**
     *Método que recebe a instancia da venda atual, monta um pdf e gera o arquivo 
     * com o mesmo
     * @param tarefas - ArrayList<Tarefa> 
+    * @param locale - String
      * @throws java.io.IOException 
     */
-    public void geraPDF(ArrayList<Tarefa> tarefas, String locale) throws IOException{
+    public void gerarPDF(ArrayList<Tarefa> tarefas, String locale) throws IOException{
         
         try (PDDocument documento = new PDDocument()) {
 
@@ -66,11 +69,16 @@ public class RelatoriosFacade {
                 }
                 
                 cont.endText();
+            } catch(Exception e) {
+                
+                JOptionPane.showMessageDialog(frame,
+                "Ocorreu um erro ao gerar PDF",
+                "Erro", 
+                JOptionPane.ERROR);
             }
 
             documento.save("src/main/resources/tarefas.pdf");
             
-            JFrame frame = new JFrame("");
             JOptionPane.showMessageDialog(frame,
                 "PDF gerado com sucesso",
                 "Aviso", 
@@ -81,9 +89,10 @@ public class RelatoriosFacade {
     /**
     *Método que recebe a instancia da venda atual, monta um txt e gera o arquivo 
     * com o mesmo
-    * @param venda - Venda 
+    *  @param tarefas - ArrayList<Tarefa> 
+    *  @param locale - String
     */
-    public void geraTXT(ArrayList<Tarefa> tarefas, String locale) {
+    public void gerarTXT(ArrayList<Tarefa> tarefas, String locale) {
         
         File myObj = new File("tarefas.txt");
         
@@ -105,15 +114,17 @@ public class RelatoriosFacade {
             
             myWriter.close();
             
-            JFrame frame = new JFrame("");
             JOptionPane.showMessageDialog(frame,
-            "Txt gerado com sucesso",
-            "Aviso", 
-            JOptionPane.INFORMATION_MESSAGE);
+                "TXT gerado com sucesso",
+                "Aviso", 
+                JOptionPane.INFORMATION_MESSAGE);
             
         } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+            
+            JOptionPane.showMessageDialog(frame,
+                "Ocorreu um erro ao gerar txt",
+                "Erro", 
+                JOptionPane.ERROR);
         }
     }
 }

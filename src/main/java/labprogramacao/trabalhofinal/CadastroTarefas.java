@@ -397,14 +397,14 @@ public class CadastroTarefas extends javax.swing.JFrame {
 
     private void gerarRelatorioPdf(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarRelatorioPdf
         try {
-            geradorRelatorios.geraPDF(tarefasCadastradas, locale.getDisplayLanguage());
+            geradorRelatorios.gerarPDF(tarefasCadastradas, locale.getDisplayLanguage());
         } catch (IOException ex) {
             Logger.getLogger(CadastroTarefas.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_gerarRelatorioPdf
 
     private void gerarRelatorioTxt(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarRelatorioTxt
-        geradorRelatorios.geraTXT(tarefasCadastradas, locale.getDisplayLanguage());
+        geradorRelatorios.gerarTXT(tarefasCadastradas, locale.getDisplayLanguage());
     }//GEN-LAST:event_gerarRelatorioTxt
 
     private void buscarTarefas() {
