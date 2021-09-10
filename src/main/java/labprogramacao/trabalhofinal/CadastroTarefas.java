@@ -38,6 +38,9 @@ public class CadastroTarefas extends javax.swing.JFrame {
         refazerLista();
     }
     
+    /**
+     * Método utilizado para redefinir as descrições na tela de acordo com a linguagem
+     */
     public void definirTexto() {
         this.jLabel1.setText(texto.getString("descricao"));
         this.jButton1.setText(texto.getString("adicionar"));
@@ -55,6 +58,9 @@ public class CadastroTarefas extends javax.swing.JFrame {
         this.jLabel6.setText(texto.getString("endereco"));
     }
     
+    /**
+     * Método utilizado para atualizar a lista de tarefas
+     */
     public void refazerLista() {
         DefaultListModel listaTela = new DefaultListModel();
         for (int i = 0; i < tarefasCadastradas.size(); i++)
@@ -300,18 +306,27 @@ public class CadastroTarefas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Altera o idioma do projeto pra portugues e redefine as descrições na tela
+     */
     private void alterarIdiomaParaPortugues(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarIdiomaParaPortugues
         this.locale = new Locale("pt", "BR");
         texto = ResourceBundle.getBundle("texto", locale);
         definirTexto();
     }//GEN-LAST:event_alterarIdiomaParaPortugues
 
+    /**
+     * Altera o idioma do projeto pra ingles e redefine as descrições na tela
+     */
     private void alterarIdiomaParaIngles(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarIdiomaParaIngles
         this.locale = new Locale("en", "US");
         texto = ResourceBundle.getBundle("texto", locale);
         definirTexto();
     }//GEN-LAST:event_alterarIdiomaParaIngles
 
+    /**
+     * Insere uma nova tarefa na lista e no banco de dados
+     */
     private void adicionarTarefa(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarTarefa
         
         if (tarefaDAO == null) {
@@ -335,6 +350,9 @@ public class CadastroTarefas extends javax.swing.JFrame {
         jTextField1.setText("");
     }//GEN-LAST:event_adicionarTarefa
 
+    /**
+     * Remove a tarefa selecionada da lista e do banco de dados
+     */
     private void removerTarefa(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerTarefa
         
         if (tarefaDAO == null) {
@@ -360,6 +378,9 @@ public class CadastroTarefas extends javax.swing.JFrame {
         refazerLista();
     }//GEN-LAST:event_removerTarefa
 
+    /**
+     * Remove todas as tarefas existentes na lista e no banco de dados
+     */
     private void removerTodasTarefas(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerTodasTarefas
         
         if (tarefaDAO == null) {
@@ -382,6 +403,9 @@ public class CadastroTarefas extends javax.swing.JFrame {
         refazerLista();
     }//GEN-LAST:event_removerTodasTarefas
 
+    /**
+     * Envia as informações necessarias de conexao com BD para o metodo responsavel por isso
+     */
     private void conectarComBancoDeDados(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conectarComBancoDeDados
         
         this.tarefaDAO = TarefaDAO.getInstance();
@@ -395,6 +419,9 @@ public class CadastroTarefas extends javax.swing.JFrame {
         refazerLista();
     }//GEN-LAST:event_conectarComBancoDeDados
 
+    /** Método que chama a façade responsavel pela logica que gera um relatório
+     * em PDF com a lista de tarefas
+    */
     private void gerarRelatorioPdf(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarRelatorioPdf
         try {
             geradorRelatorios.gerarPDF(tarefasCadastradas, locale.getDisplayLanguage());
@@ -403,10 +430,16 @@ public class CadastroTarefas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_gerarRelatorioPdf
 
+    /** Método que chama a façade responsavel pela logica que gera um relatório
+     * em TXT com a lista de tarefas
+    */
     private void gerarRelatorioTxt(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarRelatorioTxt
         geradorRelatorios.gerarTXT(tarefasCadastradas, locale.getDisplayLanguage());
     }//GEN-LAST:event_gerarRelatorioTxt
 
+     /** Método que busca todas as tarefas do banco e as insere na lista de tarefas
+      * na tela
+    */
     private void buscarTarefas() {
         tarefasCadastradas = tarefaDAO.buscar();
         refazerLista();

@@ -28,6 +28,6 @@ public class Tarefa {
     
     @Override
     public String toString() {
-        return "Tarefa " + id + " - " + descricao;
+        return descricao;
     }
 }

@@ -31,7 +31,7 @@ public class RelatoriosFacade {
     /**
     *Método que recebe a instancia da venda atual, monta um pdf e gera o arquivo 
     * com o mesmo
-    * @param tarefas - ArrayList<Tarefa> 
+    * @param tarefas - ArrayList
     * @param locale - String
      * @throws java.io.IOException 
     */
@@ -62,7 +62,7 @@ public class RelatoriosFacade {
                 cont.newLine();
                 
                 for(Tarefa tarefa: tarefas){
-                    String linha2 = tarefa.getId() + " - " + tarefa.getDescricao();
+                    String linha2 = "id " + tarefa.getId() + " - " + tarefa.getDescricao();
                     
                     cont.showText(linha2);
                     cont.newLine();
@@ -89,7 +89,7 @@ public class RelatoriosFacade {
     /**
     *Método que recebe a instancia da venda atual, monta um txt e gera o arquivo 
     * com o mesmo
-    *  @param tarefas - ArrayList<Tarefa> 
+    *  @param tarefas - ArrayList
     *  @param locale - String
     */
     public void gerarTXT(ArrayList<Tarefa> tarefas, String locale) {
@@ -109,7 +109,7 @@ public class RelatoriosFacade {
             myWriter.write(linha1 + "\n" + "\n");
             
             for(Tarefa tarefa: tarefas){
-                myWriter.write(tarefa.getId() + " - " + tarefa.getDescricao() + "\n");
+                myWriter.write("id " + tarefa.getId() + " - " + tarefa.getDescricao() + "\n");
             }
             
             myWriter.close();
