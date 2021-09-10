@@ -33,6 +33,7 @@ public class ConexaoPostgreSQL {
         this.senha = String.valueOf(senhaRecebida);
         
         try {
+//            Class.forName("org.postgresql.Driver");
             DriverManager.registerDriver(new org.postgresql.Driver());
             conexao = DriverManager.getConnection(endereco, this.usuario, this.senha);
             

@@ -11,3 +11,5 @@ em sua máquina ela nao seguir o padrão `jdbc:postgresql://localhost:5432/postg
 - Se ocorrer algum erro verificar as informações de endereço, usuário e senha
 
 - Se não indicar nenhum erro verificar se a tabela `tarefa` foi criada no banco 'postgres'
+
+-Link para o vídeo de apresentação: https://www.loom.com/share/325a970dddde4fd1a5436f503363638e

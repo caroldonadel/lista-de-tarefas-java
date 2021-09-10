@@ -6,19 +6,14 @@
 package labprogramacao.trabalhofinal;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import java.io.File; 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 /**Classe na qual são estruturados os métodos responsáveis por montar a estrutura
  * e gerar o relatorio de uma venda seja ele em pdf ou txt
@@ -46,7 +41,6 @@ public class RelatoriosFacade {
 
                 cont.beginText();
 
-                cont.setFont(PDType1Font.COURIER, 12);
                 cont.setLeading(14.5f);
 
                 cont.newLineAtOffset(10, 700);
